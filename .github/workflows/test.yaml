@@ -31,21 +31,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # - name: Install PostgreSQL dev packages
-      #   run: |
-      #     curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
-      #     echo "deb http://apt.postgresql.org/pub/repos/apt `lsb_release -cs`-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-      #     sudo apt update
-      #     sudo apt install libpq-dev cmake -y
-
-      - name: Install PostgreSQL dev packages
+      - name: Add PostgreSQL apt repository
         run: |
           curl -sSL https://www.postgresql.org/media/keys/ACCC4CF8.asc -o /tmp/ACCC4CF8.asc
           sudo mv /tmp/ACCC4CF8.asc /etc/apt/trusted.gpg.d/
           echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" | sudo tee /etc/apt/sources.list.d/pgdg.list
-
-      # sudo apt update
-      # sudo apt install libpq-dev cmake -y
 
       - name: Run Tests
         run: |

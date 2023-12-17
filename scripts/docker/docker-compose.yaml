@@ -1,0 +1,24 @@
+version: '3'
+
+name: pgembedefy
+
+volumes:
+  postgres_data:
+    driver: local
+
+services:
+  postgres:
+    container_name: pgembedefy-postgres
+    build:
+      context: ../../
+      dockerfile: scripts/docker/Dockerfile.main
+    command:
+      - -c
+      - embedefy.access_token=${EMBEDEFY_ACCESS_TOKEN}
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /var/lib/postgresql/data/pgdata
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres_data:/var/lib/postgresql/data

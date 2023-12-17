@@ -1,0 +1,40 @@
+name: Test
+
+on:
+  push:
+    branches: ["*"]
+    tags-ignore: ["*"]
+  pull_request:
+    branches: ["*"]
+
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: Log Level
+        default: info
+        type: choice
+        options:
+          - debug
+          - error
+          - fatal
+          - info
+          - panic
+          - warning
+      environment:
+        description: Environment
+        default: test
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Run Tests
+        run: |
+          POSTGRES_VERSION=15
+          apt-get update && apt-get install -y --no-install-recommends git build-essential ca-certificates libcurl4-openssl-dev libjson-c-dev postgresql-server-dev-${POSTGRES_VERSION}
+          cd src/
+          make
+          make install

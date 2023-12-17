@@ -1,0 +1,69 @@
+name: Release
+
+permissions:
+  contents: write
+
+on:
+  push:
+    tags: ["v*.*.*"]
+
+  workflow_dispatch:
+    inputs:
+      releaseTag:
+        description: Existing git tag (i.e. v0.1.0)
+        required: true
+      dryRun:
+        description: Dryrun
+        default: "true"
+        type: choice
+        options:
+          - "true"
+          - "false"
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    if: (github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref_type == 'tag'))
+    outputs:
+      RELEASE_TAG: ${{ steps.check-tag.outputs.RELEASE_TAG }}
+      REPO_NAME: ${{ steps.check-tag.outputs.REPO_NAME }}
+    steps:
+      - name: Check release tag
+        id: check-tag
+        uses: actions/github-script@v6
+        with:
+          script: |
+            console.log('github.event_name', '${{ github.event_name }}')
+            console.log('github.ref_type', '${{ github.ref_type }}')
+            let releaseTag
+            if('${{ github.event_name }}' == 'workflow_dispatch') {
+              releaseTag = '${{ github.event.inputs.releaseTag }}'
+            } else if('${{ github.event_name }}' == 'push' && '${{ github.ref_type }}' == 'tag') {
+              releaseTag = '${{ github.ref }}'.replace(/^refs\/tags\//, '');
+            } else {
+              console.log('no semver tag found')
+              return
+            }
+            console.log('RELEASE_TAG', releaseTag)
+            core.setOutput('RELEASE_TAG', releaseTag)
+            console.log('REPO_NAME', context.repo.repo)
+            core.setOutput('REPO_NAME', context.repo.repo)
+
+      - name: Check tag semver
+        id: check-tag-semver
+        uses: madhead/semver-utils@5532a76b34d90e0ea245292630e4d3af3d7fe75e # latest as of 2023-10-29
+        if: ${{ steps.check-tag.outputs.RELEASE_TAG != '' }}
+        with:
+          version: ${{ steps.check-tag.outputs.RELEASE_TAG }}
+          lenient: false # fail on error
+
+  release:
+    runs-on: ubuntu-latest
+    needs: check
+    if: ${{ needs.check.outputs.RELEASE_TAG != '' }}
+    steps:
+      - name: Make a release
+        uses: softprops/action-gh-release@de2c0eb89ae2a093876385947365aca7b0e5f844 # v0.1.15
+        if: github.event.inputs.dryRun != 'true'
+        with:
+          tag_name: ${{ needs.check.outputs.RELEASE_TAG }}

@@ -3,8 +3,12 @@
 PostgreSQL extension for [Embedefy](https://www.embedefy.com/docs/pgembedefy).
 
 The Embedefy PostgreSQL Extension provides access to embeddings directly from your database,
-without building and maintaining your own applications. Once the extension is installed,
+without building and maintaining additional applications. Once the extension is installed,
 you can query your database as you normally would, but with the benefits of embeddings.
+
+To use embeddings in PostgreSQL, install the pgembedefy extension and select a table and column to process.
+Once the table column is processed, you can query your database with natural language,
+getting results based on the semantic understanding.
 
 ## Requirements
 

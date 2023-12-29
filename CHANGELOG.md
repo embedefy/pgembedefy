@@ -6,7 +6,7 @@ See https://common-changelog.org for commit guidelines.
 
 ### Changed
 
-- Update the example insert query (#4)
+- Update the example insert query (#6)
 
 ## v0.1.0 - 2023-12-17
 

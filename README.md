@@ -47,36 +47,38 @@ CREATE TABLE products (
   id SERIAL PRIMARY KEY,
   name text UNIQUE
 );
-INSERT INTO products (name) VALUES ('Bacon');
-INSERT INTO products (name) VALUES ('Bagel');
-INSERT INTO products (name) VALUES ('Coffee');
-INSERT INTO products (name) VALUES ('Croissant');
-INSERT INTO products (name) VALUES ('Oatmeal');
-INSERT INTO products (name) VALUES ('Omelette');
-INSERT INTO products (name) VALUES ('Orange juice');
-INSERT INTO products (name) VALUES ('Pancake mix');
-INSERT INTO products (name) VALUES ('Tea');
-INSERT INTO products (name) VALUES ('Cream cheese');
-INSERT INTO products (name) VALUES ('Brocoli');
-INSERT INTO products (name) VALUES ('Chicken wings');
-INSERT INTO products (name) VALUES ('Eggplant');
-INSERT INTO products (name) VALUES ('Hummus');
-INSERT INTO products (name) VALUES ('Meatballs');
-INSERT INTO products (name) VALUES ('Mixed salad');
-INSERT INTO products (name) VALUES ('Noodles');
-INSERT INTO products (name) VALUES ('Pasta');
-INSERT INTO products (name) VALUES ('Soda');
-INSERT INTO products (name) VALUES ('Sparkling water');
-INSERT INTO products (name) VALUES ('Beef steak');
-INSERT INTO products (name) VALUES ('Caesar salad');
-INSERT INTO products (name) VALUES ('Green tea');
-INSERT INTO products (name) VALUES ('Lamb chops');
-INSERT INTO products (name) VALUES ('Pizza sauce');
-INSERT INTO products (name) VALUES ('Red wine');
-INSERT INTO products (name) VALUES ('Rice');
-INSERT INTO products (name) VALUES ('Salmon fillet');
-INSERT INTO products (name) VALUES ('Sweet potatoes');
-INSERT INTO products (name) VALUES ('Tiramisu');
+INSERT INTO products (name)
+VALUES
+    ('Bacon'),
+    ('Bagel'),
+    ('Coffee'),
+    ('Croissant'),
+    ('Oatmeal'),
+    ('Omelette'),
+    ('Orange juice'),
+    ('Pancake mix'),
+    ('Tea'),
+    ('Cream cheese'),
+    ('Brocoli'),
+    ('Chicken wings'),
+    ('Eggplant'),
+    ('Hummus'),
+    ('Meatballs'),
+    ('Mixed salad'),
+    ('Noodles'),
+    ('Pasta'),
+    ('Soda'),
+    ('Sparkling water'),
+    ('Beef steak'),
+    ('Caesar salad'),
+    ('Green tea'),
+    ('Lamb chops'),
+    ('Pizza sauce'),
+    ('Red wine'),
+    ('Rice'),
+    ('Salmon fillet'),
+    ('Sweet potatoes'),
+    ('Tiramisu');
 ```
 
 Create the embeddings table:

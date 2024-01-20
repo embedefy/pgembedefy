@@ -6,6 +6,7 @@ See https://common-changelog.org for commit guidelines.
 
 ### Changed
 
+- Allow multiple columns and models in embeddings tables
 - Update the example insert query (#6)
 
 ## v0.1.0 - 2023-12-17

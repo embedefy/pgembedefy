@@ -1,4 +1,4 @@
-ARG POSTGRES_VERSION=15
+ARG POSTGRES_VERSION=16
 
 # Base image
 FROM postgres:${POSTGRES_VERSION}
@@ -6,8 +6,8 @@ ARG POSTGRES_VERSION
 
 # Install dependencies
 RUN \
-	apt-get update && apt-get install -y --no-install-recommends git build-essential ca-certificates \
-	libcurl4-openssl-dev libjson-c-dev postgresql-server-dev-${POSTGRES_VERSION}
+	apt update && apt install -y --no-install-recommends git build-essential ca-certificates \
+	libcurl4-openssl-dev libjson-c-dev libicu-dev postgresql-server-dev-${POSTGRES_VERSION}
 
 # Install pgvector extension
 WORKDIR /tmp/pgvector
@@ -17,7 +17,7 @@ RUN \
 	make OPTFLAGS="" && \
 	make install && \
 	mkdir /usr/share/doc/pgvector && \
-	cp LICENSE README.md /usr/share/doc/pgvector && \
+	cp /tmp/pgvector/LICENSE /tmp/pgvector/README.md /usr/share/doc/pgvector && \
 	rm -r /tmp/pgvector
 
 # Install pgembedefy extension
@@ -27,21 +27,18 @@ RUN \
 	cd src/ && \
 	make clean && \
 	make && \
-	make install
+	make install && \
+	mkdir /usr/share/doc/pgembedefy && \
+	cp /tmp/pgembedefy/LICENSE.txt /tmp/pgembedefy/README.md /usr/share/doc/pgembedefy && \
+	cp /tmp/pgembedefy/scripts/postgres/initdb.d/* /docker-entrypoint-initdb.d/ && \
+	cp /tmp/pgembedefy/scripts/postgres/.psqlrc /root/ && \
+	rm -r /tmp/pgembedefy
 
 # Cleanup
 RUN \
 	apt-get remove -y git build-essential postgresql-server-dev-${POSTGRES_VERSION} && \
 	apt-get autoremove -y && \
 	rm -rf /var/lib/apt/lists/*
-
-# Additional files
-RUN \
-	mkdir /usr/share/doc/pgembedefy && \
-	cp /tmp/pgembedefy/LICENSE.txt /tmp/pgembedefy/README.md /usr/share/doc/pgembedefy && \
-	cp /tmp/pgembedefy/scripts/postgres/initdb.d/* /docker-entrypoint-initdb.d/ && \
-	cp /tmp/pgembedefy/scripts/postgres/.psqlrc /root/ && \
-	rm -r /tmp/pgembedefy
 
 # Environment variables
 ENV POSTGRES_PASSWORD postgres

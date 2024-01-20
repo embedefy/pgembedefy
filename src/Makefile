@@ -1,5 +1,5 @@
 EXTENSION = embedefy
-EXTENSION_VERSION ?= 0.1.0
+EXTENSION_VERSION ?= 0.2.0
 MODULE_big = embedefy
 PG_CONFIG = pg_config
 DATA = $(wildcard sql/*.sql)

@@ -84,11 +84,11 @@ VALUES
 Create the embeddings table:
 
 ```sql
-SELECT embedefy_embeddings_table_create('products', ARRAY['id'], 'bge-small-en-v1.5', null);
+SELECT embedefy_embeddings_table_create('products', ARRAY['id'], 'bge-small-en-v1.5');
 
 -- It may take some time, depending on the number of items and the speed of your internet connection.
 -- You can stop it any time by pressing Ctrl+C. If it fails for some reason, run it again.
-SELECT embedefy_embeddings_table_process('products', 'name', 'bge-small-en-v1.5', null);
+SELECT embedefy_embeddings_table_process('products', 'name', 'bge-small-en-v1.5');
 ```
 
 > Note that you can call the `embedefy_embeddings_table_process` function at any time (e.g., in a trigger) to
@@ -160,19 +160,30 @@ see [pgvector](https://github.com/pgvector/pgvector?tab=readme-ov-file#vector-ty
 
 This is options builds and runs everything locally and it is suitable for development purposes.
 
+> Make sure you have [pgvector](https://github.com/pgvector/pgvector) installed.
+
 ```shell
 # macOS dependencies
 # Note that based on your system you might need to install other dependencies.
-# Postgres 16 requires icu4c
-# brew install icu4c
+# See dependencies for asdf at https://asdf-vm.com/guide/getting-started.html#_1-install-dependencies
+brew install asdf icu4c json-c
+
+# For Postgres 16 you need to export icu4c compiler flags
 # Run `brew info icu4c` and export the compiler flags
-brew install json-c
+export LDFLAGS="-L/opt/homebrew/opt/icu4c/lib"
+export CPPFLAGS="-I/opt/homebrew/opt/icu4c/include"
 
 # Install PostgreSQL
 asdf plugin-add postgres
-asdf install postgres 15.5
+asdf install postgres 16.1
+# Set the version to use in the current shell session
+# You can also set it locally by running `asdf local postgres 16.1` or globally by running `asdf global postgres 16.1`
+asdf shell postgres 16.1
+# Check the version
+postgres --version
 
 # Build
+cd src/
 make
 # Install
 make install

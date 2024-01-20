@@ -2,7 +2,7 @@
 
 See https://common-changelog.org for commit guidelines.
 
-## UNRELEASED
+## v0.2.0 - 2024-01-19
 
 ### Changed
 
